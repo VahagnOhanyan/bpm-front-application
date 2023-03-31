@@ -6,18 +6,16 @@ import Users from "../pages/users/Users";
 import ParsingHistory from "../pages/parsinghistory/ParsingHistory";
 import Subscriptions from "../pages/subscriptions/Subscriptions";
 import Pages from "../pages/pages/Pages";
-import React, {useState} from "react";
-import {Redirect, useNavigate} from 'react-router-dom';
-import {AppBar, MenuItem} from "@mui/material";
+import React from "react";
+import {useNavigate} from 'react-router-dom';
+import {MenuItem} from "@mui/material";
 
 function App() {
     const navigate = useNavigate();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const token = localStorage.getItem("token");
-    const handleClick = (path) => {
 
+    const handleClick = (path) => {
+        const token = localStorage.getItem("token");
         if (!token) {
-            setIsAuthenticated(false);
             navigate("/");
         } else {
             navigate(path);

@@ -1,5 +1,10 @@
-export const getAllUsers = () => fetch("/bpm/admin/users/all",
-    {method: "GET"})
+import {getCommonRequestProps} from "../common/common";
+
+export const getAllUsers = (token) => fetch("/bpm/admin/users/all",
+        {
+        method: "GET",
+     ...getCommonRequestProps(),
+    })
     .then(response => response.json())
     .then(users => users || []);
 

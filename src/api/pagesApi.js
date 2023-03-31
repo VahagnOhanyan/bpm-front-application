@@ -1,5 +1,10 @@
+import {getCommonRequestProps} from "../common/common";
+
 export const getAllPages = () => fetch("/bpm/admin/pages/all",
-    {method: "GET"})
+    {
+        method: "GET",
+        ...getCommonRequestProps(),
+    })
     .then(response => response.json())
     .then(pages => pages || []);
 

@@ -2,7 +2,6 @@ import {DataGrid} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
 import * as subscriptionsApi from "../../api/subscriptionsApi";
 import {flattenObjInLoop} from "../../utils/flattener";
-import {useAuth} from "../../auth/AuthProvider";
 
 const columns = [
     {field: "id", headerName: "qq", width: 150},
@@ -11,7 +10,6 @@ const columns = [
 ];
 
 const Subscriptions = () => {
-    const {token} = useAuth();
     const [subscriptions, setSubscriptions] = useState([])
     const [selectedRow, setSelectedRow] = useState(null);
 
@@ -20,8 +18,8 @@ const Subscriptions = () => {
     };
 
     useEffect(() => {
-        loadAllSubscriptions(setSubscriptions, token);
-    }, [setSubscriptions, token]);
+        loadAllSubscriptions(setSubscriptions);
+    }, [setSubscriptions]);
 
     return (
         <DataGrid columns={columns} rows={subscriptions} getRowId={subscription => subscription.id}
@@ -29,7 +27,7 @@ const Subscriptions = () => {
                   rowClassName={(row) => selectedRow && row.id === selectedRow.id ? "selected" : ""}/>
     )
 }
-const loadAllSubscriptions = (setSubscriptions, token) => {
-    subscriptionsApi.getAllSubscriptions(token).then(subscriptions => setSubscriptions(flattenObjInLoop(subscriptions)))
+const loadAllSubscriptions = (setSubscriptions) => {
+    subscriptionsApi.getAllSubscriptions().then(subscriptions => setSubscriptions(flattenObjInLoop(subscriptions)))
 };
 export default Subscriptions;
