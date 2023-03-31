@@ -6,18 +6,20 @@ const AuthContext = createContext('');
 
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
     useEffect(() => {
         // Check if there's a JWT token stored in localStorage
-        const token = localStorage.getItem("token");
-        if (token) {
+        const jwt = localStorage.getItem("token");
+        if (jwt) {
             // Send a request to the backend to verify the JWT token
             fetch("/bpm/login", {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${jwt}`,
                 },
             })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log(data)
                     if (data.user) {
                         setUser(data.user);
                     }
@@ -28,7 +30,7 @@ export const AuthProvider = ({children}) => {
         }
     }, []);
 
-    const logIn = async (login, password) => {
+    const logIn = async (login, password, navigate) => {
         try {
             const res = await fetch("/bpm/login", {
                 method: "POST",
@@ -41,7 +43,9 @@ export const AuthProvider = ({children}) => {
             localStorage.setItem("token", data);
             const decodedToken = jwt_decode(data);
             console.log(decodedToken)
+            setToken(localStorage.getItem("token"))
             setUser(decodedToken.user);
+            navigate(-1);
         } catch (err) {
             console.log(err);
         }
@@ -74,6 +78,7 @@ export const AuthProvider = ({children}) => {
         logIn,
         signUp,
         logOut,
+        token
     };
 
     return <AuthContext.Provider value={authValues}>{children}</AuthContext.Provider>;

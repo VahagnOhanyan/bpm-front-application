@@ -1,6 +1,6 @@
 import {DataGrid} from "@mui/x-data-grid";
 import {useEffect, useState} from "react";
-import * as parsingHistoryApi from "../../api/parsingHistoryApi";
+import * as parsingHistoryApi from "../../api/parsinghistoryApi";
 import {flattenObjInLoop} from "../../utils/flattener";
 
 const columns = [

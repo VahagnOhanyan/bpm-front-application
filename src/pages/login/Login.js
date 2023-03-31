@@ -9,11 +9,11 @@ const validationSchema = Yup.object().shape({
         .required("Password is required"),
 });
 
-export function Login() {
+export function Login(navigate) {
     const {logIn} = useAuth();
     const initialValues = {login: "", password: ""};
     const onSubmit = (values) => {
-        logIn(values.login, values.password);
+        logIn(values.login, values.password, navigate);
     };
 
     return (
